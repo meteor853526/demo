@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        
+		<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+        
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+  		<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
+        
+</head>
+
+<body align="center">
+    
+    <a  id="username" data-type="text" data-pk="1" data-url="/post" data-title="Enter username"></a>
+
+    <div class="container mb-10 mt-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">csv_db 6</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <button style= "float:right"class="btn btn-danger" id="button" data-toggle="modal" data-target="#mymodal"><i class="far fa-comment"></i> 新增資料</button>
+                    
+                        
+                    </div>
+                    <table id="course" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>選課代號</th>
+                                <th>課程名稱</th>
+                                <th>開課班級</th>
+                                <th>學分數</th>
+                                <th>必選修</th>
+                                <th>開課單位</th>
+                                <th>開課人數</th>
+                                <th>已收授人數</th>
+                                <th>授課教師</th>
+                                <th>功能</th>
+                                <!-- <th>功能</th> -->
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+            <script>
+                function deletefunction(delid){
+                    //alert(delid);
+                    $.ajax({
+                        url: 'delete.php',                        // url位置
+                        type: 'post',                   // post/get
+                        data: { 選課代號: delid},       // 輸入的資料
+                        error: function (xhr) { },      // 錯誤後執行的函數
+                        success: function (response) { }// 成功後要執行的函數
+                    });
+                    window.location.reload();
+                }
+            </script>
+            <script>
+                function validateForm() {
+                    let add1 = document.forms["myForm"]["add1"].value;
+
+                    if (add1 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add2 = document.forms["myForm"]["add2"].value;
+
+                    if (add2 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add3 = document.forms["myForm"]["add3"].value;
+
+                    if (add3 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add4 = document.forms["myForm"]["add4"].value;
+
+                    if (add4 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add5 = document.forms["myForm"]["add5"].value;
+
+                    if (add5 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add6 = document.forms["myForm"]["add6"].value;
+
+                    if (add6 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add7 = document.forms["myForm"]["add7"].value;
+
+                    if (add7 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add8 = document.forms["myForm"]["add8"].value;
+
+                    if (add8 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                    let add9 = document.forms["myForm"]["add9"].value;
+
+                    if (add9 == "") {
+                        alert("表單請填完整");
+                        return false;
+                    }
+                }
+            </script>
+            <script type="text/javascript" language="javascript">
+
+                $(document).ready(function (data) {
+                    var Datatable = $('#course').DataTable({
+                        "processing": true,
+                        //"serverSide": true,
+                        "order":[],
+                        "ajax": {
+                            "url": "fetch.php", //要抓哪個地方的資料
+                            "type": "POST", //使用什麼方式抓
+                            "dataSrc": "data",
+                            "dataType": "JSON", //回傳資料的類型
+                        },
+                       
+                        "columns": [
+                            { "data": "選課代號" }, //第一欄使用data中的name
+                            { "data": "課程名稱" }, //第二欄使用data中的age
+                            { "data": "開課班級" },
+                            { "data": "學分數" },
+                            { "data": "必選修" },
+                            { "data": "開課單位" },
+                            { "data": "開課人數" },
+                            { "data": "已收授人數" }, 
+                            { "data": "授課教師" },
+                            { //"data": "功能" , 
+                              "data": null,
+                                "orderable": false, // 禁用排序
+                                "defaultContent": "",
+                                "render": function (data, type,full, meta) {
+                                        return '<button id= "'+data['選課代號']+'" type="button" class="btn btn-danger btn-sm" onclick="deletefunction('+data['選課代號']+')">刪除</button>'
+                                }
+                            } 
+                 
+                           ],
+                        columnDefs: [ { "defaultContent": "-", "targets": "_all" } ],
+                        createdRow:function(row, data, rowIndex){
+			                $.each($('td', row), function(colIndex){
+				                if(colIndex == 0){
+                                    $(this).attr('data-name', '選課代號');
+                                    $(this).attr('class', '選課代號');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                    
+				                }
+                                if(colIndex == 1)
+                                {
+                                    $(this).attr('data-name', '課程名稱');
+                                    $(this).attr('class', '課程名稱');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 2)
+                                {
+                                    $(this).attr('data-name', '開課班級');
+                                    $(this).attr('class', '開課班級');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 3)
+                                {
+                                    $(this).attr('data-name', '學分數');
+                                    $(this).attr('class', '學分數');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 4)
+                                {
+                                    $(this).attr('data-name', '必選修');
+                                    $(this).attr('class', '必選修');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 5)
+                                {
+                                    $(this).attr('data-name', '開課單位');
+                                    $(this).attr('class', '開課單位');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 6)
+                                {
+                                    $(this).attr('data-name', '開課人數');
+                                    $(this).attr('class', '開課人數');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 7)
+                                {
+                                    $(this).attr('data-name', '已收授人數');
+                                    $(this).attr('class', '已收授人數');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                if(colIndex == 8)
+                                {
+                                    $(this).attr('data-name', '授課教師');
+                                    $(this).attr('class', '授課教師');
+                                    $(this).attr('data-type', 'text');
+                                    $(this).attr('data-pk', data['選課代號']);
+                                }
+                                
+			                });
+                        
+		                },
+
+
+
+
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.選課代號',
+                        url:'update.php',
+                        title:'選課代號',
+                        type:'POST',
+                        name:'選課代號',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },
+                        
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.課程名稱',
+                        url:'update.php',
+                        title:'課程名稱',
+                        type:'POST',
+                        name:'課程名稱',
+                        validate:function(value){
+                            if($.trim(value) == ''){
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.開課班級',
+                        url:'update.php',
+                        title:'開課班級',
+                        type:'POST',
+                        name:'開課班級',
+                        validate:function(value){
+                            if($.trim(value) == ''){
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.學分數',
+                        url:'update.php',
+                        title:'學分數',
+                        type:'POST',
+                        name:'學分數',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.必選修',
+                        url:'update.php',
+                        title:'必選修',
+                        type:'POST',
+                        name:'必選修',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.開課單位',
+                        url:'update.php',
+                        title:'開課單位',
+                        type:'POST',
+                        name:'開課單位',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.開課人數',
+                        url:'update.php',
+                        title:'開課人數',
+                        type:'POST',
+                        name:'開課人數',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.已收授人數',
+                        url:'update.php',
+                        title:'已收授人數',
+                        type:'POST',
+                        name:'已收授人數',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },                       
+                    });
+                    $('#course').editable({
+                        container:'body',
+                        selector:'td.授課教師',
+                        url:'update.php',
+                        title:'授課教師',
+                        type:'POST',
+                        name:'授課教師',
+                        validate:function(value){
+                            if($.trim(value) == '')
+                            {
+                                return 'This field is required';
+                            }
+                        },
+                    });
+                });
+                
+            </script>
+
+        </table>
+    </div>
+    <div class="container" >
+
+        <div class="modal" id="mymodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">新增資料</h2>
+            </div>
+            <div class="modal-body">
+                
+
+                <form name="myForm" action="add.php" onsubmit="return validateForm()" method="post">
+                    <div class="form-group row">
+                        <label for="add1" class="Data-Title">選課代號:</label> 
+                        <div class="col-10">
+                        <input placeholder="請確認選課代號沒有重複"id="add1" name="add1" type="number" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add2" class="Data-Title">課程名稱:</label> 
+                        <div class="col-10">
+                        <input placeholder="課程名稱"id="add2" name="add2" type="text" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add3" class="Data-Title">開課班級:</label> 
+                        <div class="col-10">
+                        <input placeholder="開課班級" id="add3" name="add3" type="text" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add4" class="Data-Title">學分數:</label> 
+                        <div class="col-10">
+                        <input placeholder="學分數"id="add4" name="add4" type="number" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add5" class="Data-Title">必選修:</label> 
+                        <div class="col-10">
+                        <input placeholder="必選修"id="add5" name="add5" type="text" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add6" class="Data-Title">開課單位:</label> 
+                        <div class="col-10">
+                        <input placeholder="開課單位"id="add6" name="add6" type="text" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add7" class="Data-Title">開課人數:</label> 
+                        <div class="col-10">
+                        <input placeholder="開課人數"id="add7" name="add7" type="number" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add8" class="Data-Title">已收授人數:</label> 
+                        <div class="col-10">
+                        <input placeholder="已收授人數"id="add8" name="add8" type="number" class="Data-Items">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="add9" class="Data-Title">授課教師:</label> 
+                        <div class="col-10">
+                        <input placeholder="授課教師"id="add9" name="add9" type="text" class="Data-Items">
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <div class="offset-2 col-10">
+                        <button name="submit" type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        </div>
+        <style>
+            @import url("https://fonts.googleapis.com/earlyaccess/notosanstc.css");
+            .Data-Title {
+                float: left;
+                width: 25%; /* Label寬度，視情況調整 */
+                margin-right: 20px;
+                font-size:18px;
+            }
+            .Data-Items {
+                float: left;
+                width: 60%;
+                line-height: 20px;
+                display: flex;
+                border-radius: 25px;
+                border: 2px solid #73AD21;
+                font-family:'Noto Sans TC!important';
+            }
+            
+            
+        </style>
+</body>
+
+</html>
