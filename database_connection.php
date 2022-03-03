@@ -1,9 +1,9 @@
 <?php
 
 //database_connection.php
-$dsn = "mysql:dbname=csv_db 6;host=localhost;port=3306";
-$username = "root";
-$password = "";
+$dsn = "mysql:dbname=class_demo;host=localhost;port=3306";
+$username = "test";
+$password = "classdemo";
 
 $connect = new PDO($dsn, $username, $password);
 $connect->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
